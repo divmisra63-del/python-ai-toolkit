@@ -7,13 +7,10 @@ def analyse_text(text,search_word):
     for word in words:
         if word.lower().strip(".,!?") == search_word.lower().strip(".,!?"):
             word_matches = word_matches + 1
-            
-    print(f"{search_word} appears {word_matches} times")
-    print(f"Your words has {text_length} charactars")
-    print(f"There are {word_count} words")
+    
+    return text_length, word_matches, word_count 
 
 def process_data(threshold_days,resolution_days):
-     print("Starting data analysis...")
      total_complaints = len(resolution_days)
      Total_days = 0
      complaint_matches = 0
@@ -27,8 +24,8 @@ def process_data(threshold_days,resolution_days):
     
      average_days = Total_days/total_complaints
     
-     print(f"the average days for complaint resolution is {average_days}")
-     print(f"{complaint_matches} complaints took more than {threshold_days} days to resolve")   
+     return total_complaints, average_days, complaint_matches
+     
 
 
 while True:
@@ -43,13 +40,19 @@ while True:
     if choice == "1":
        text=input("Enter some text:")
        search_word = input("Which word would you like to search for?")
-       analyse_text(text,search_word)
+       text_length, word_matches, word_count = analyse_text(text, search_word)
+       print(f"{search_word} appears {word_matches} times")
+       print(f"Your words has {text_length} charactars")
+       print(f"There are {word_count} words")
        
     elif choice =="2":
         print("Starting data analysis...")
         threshold_days = int(input("Enter resolution days:"))
         resolution_days = [3, 8, 5, 12, 4]
-        process_data(threshold_days,resolution_days)
+        total_complaints, average_days, complaint_matches = process_data(threshold_days,resolution_days)
+        print(f"the average days for complaint resolution is {average_days}")
+        print(f"{complaint_matches} complaints took more than {threshold_days} days to resolve") 
+        print(f"total complaints :{total_complaints}")  
       
     elif choice =="3":
         print("Goodbye")
